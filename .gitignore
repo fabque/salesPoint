@@ -22,3 +22,30 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Ignore build output and IDE folders
+/target/
+/.idea/
+/.vscode/
+
+# IDE-specific files
+# IntelliJ IDEA
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+*.code-workspace
+/.vscode/
+
+# Eclipse
+.classpath
+.project
+/.settings/
+
+# NetBeans
+/nbproject/private/
+/build/
+
+# Misc
+.DS_Store
