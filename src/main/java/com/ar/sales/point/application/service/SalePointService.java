@@ -23,16 +23,16 @@ public class SalePointService implements SalePointUseCase {
 
     @Override
     public SalePoint getSalePointById(Long id) {
-        return null;
+        return salePointRepositoryPort.findById(id);
     }
 
     @Override
     public List<SalePoint> getAllSalePoints() {
-        return List.of();
+        return salePointRepositoryPort.findAll();
     }
 
     @Override
     public void deleteSalePoint(Long id) {
-
+        salePointRepositoryPort.deleteById(id);
     }
 }
