@@ -4,6 +4,7 @@ import com.ar.sales.point.application.port.in.SalePointUseCase;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointResponse;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +48,7 @@ public class SalePointController {
     public SalePointResponse getSalePointById(@PathVariable("id") Long id) {
         final SalePoint salePoint = salePointUseCase.getSalePointById(id);
         if (salePoint == null) {
-            return null;
+            throw new ResourceNotFoundException("SalePoint with id " + id + " not found");
         }
         return new SalePointResponse(salePoint.getId(), salePoint.getName());
     }
