@@ -4,12 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 @Entity
 @Table(name = "sale_point_costs")
 public class SalePointCostEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "origin_id")
@@ -63,4 +66,3 @@ public class SalePointCostEntity {
         this.cost = cost;
     }
 }
-

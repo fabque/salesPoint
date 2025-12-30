@@ -19,8 +19,12 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
 
     @Override
     public SalePointCost save(SalePointCost salePointCost) {
+        Long providedId = salePointCost.getId();
+
+        Long entityId = (providedId != null && springDataRepo.existsById(providedId)) ? providedId : null;
+
         SalePointCostEntity entity = new SalePointCostEntity(
-                salePointCost.getId(),
+                entityId,
                 salePointCost.getSalePointOrigin() != null ? salePointCost.getSalePointOrigin().getId() : null,
                 salePointCost.getSalePointDestination() != null ? salePointCost.getSalePointDestination().getId() : null,
                 salePointCost.getCost()
@@ -50,4 +54,3 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
         return new SalePointCost(e.getId(), origin, destination, e.getCost());
     }
 }
-
