@@ -4,7 +4,6 @@ import com.ar.sales.point.application.port.in.SalePointUseCase;
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
