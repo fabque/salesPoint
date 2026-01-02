@@ -18,7 +18,7 @@ public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
 
     @Override
     public SalePoint save(SalePoint salePoint) {
-        SalePointEntity entity = new SalePointEntity(salePoint.getId(), salePoint.getName());
+        SalePointEntity entity = new SalePointEntity(salePoint.id(), salePoint.name());
         SalePointEntity saveEntity = springDataSalePointRepository.save(entity);
         return new SalePoint(saveEntity.getId(), saveEntity.getName());
     }

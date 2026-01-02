@@ -24,10 +24,10 @@ public class JpaSalePointRepositoryAdapterTest {
     void save_and_find() {
         SalePoint sp = new SalePoint(1L, "H2 SP");
         SalePoint saved = adapter.save(sp);
-        assertNotNull(saved.getId());
-        SalePoint fetched = adapter.findById(saved.getId());
+        assertNotNull(saved.id());
+        SalePoint fetched = adapter.findById(saved.id());
         assertNotNull(fetched);
-        assertEquals("H2 SP", fetched.getName());
+        assertEquals("H2 SP", fetched.name());
 
         List<SalePoint> all = adapter.findAll();
         assertTrue(all.size() >= 1);

@@ -32,8 +32,8 @@ public class JpaSalePointCostRepositoryAdapterTest {
         assertEquals(15.5, fetched.getCost());
         assertNotNull(fetched.getSalePointOrigin());
         assertNotNull(fetched.getSalePointDestination());
-        assertEquals(10L, fetched.getSalePointOrigin().getId());
-        assertEquals(20L, fetched.getSalePointDestination().getId());
+        assertEquals(10L, fetched.getSalePointOrigin().id());
+        assertEquals(20L, fetched.getSalePointDestination().id());
 
         List<SalePointCost> all = adapter.findAll();
         assertTrue(all.size() >= 1);
@@ -57,8 +57,8 @@ public class JpaSalePointCostRepositoryAdapterTest {
 
         assertEquals(saved.getId(), updated.getId());
         assertEquals(9.99, updated.getCost());
-        assertEquals(3L, updated.getSalePointOrigin().getId());
-        assertEquals(4L, updated.getSalePointDestination().getId());
+        assertEquals(3L, updated.getSalePointOrigin().id());
+        assertEquals(4L, updated.getSalePointDestination().id());
     }
 
     @Test
@@ -97,8 +97,8 @@ public class JpaSalePointCostRepositoryAdapterTest {
         SalePointCost persisted = adapter.findById(result.getId());
         assertNotNull(persisted);
         assertEquals(42.0, persisted.getCost());
-        assertEquals(11L, persisted.getSalePointOrigin().getId());
-        assertEquals(22L, persisted.getSalePointDestination().getId());
+        assertEquals(11L, persisted.getSalePointOrigin().id());
+        assertEquals(22L, persisted.getSalePointDestination().id());
 
         // Cleanup
         adapter.deleteById(result.getId());

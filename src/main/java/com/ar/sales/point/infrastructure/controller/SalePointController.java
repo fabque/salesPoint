@@ -40,7 +40,7 @@ public class SalePointController {
     public SalePointResponse saveSalePoint(@RequestBody SalePointRequest salePointRequest) {
         final SalePoint salePoint = new SalePoint(salePointRequest.getId(), salePointRequest.getName());
         final SalePoint salePointCreated = salePointUseCase.createSalePoint(salePoint);
-        return new SalePointResponse(salePointCreated.getId(), salePointCreated.getName());
+        return new SalePointResponse(salePointCreated.id(), salePointCreated.name());
     }
 
     @Operation(summary = "Get a sale point by id", description = "Returns a sale point by its id.")
@@ -50,14 +50,14 @@ public class SalePointController {
         if (salePoint == null) {
             throw new ResourceNotFoundException("SalePoint with id " + id + " not found");
         }
-        return new SalePointResponse(salePoint.getId(), salePoint.getName());
+        return new SalePointResponse(salePoint.id(), salePoint.name());
     }
 
     @Operation(summary = "List all sale points", description = "Returns all sale points.")
     @GetMapping(produces = "application/json")
     public List<SalePointResponse> getAllSalePoints() {
         return salePointUseCase.getAllSalePoints().stream()
-                .map(sp -> new SalePointResponse(sp.getId(), sp.getName()))
+                .map(sp -> new SalePointResponse(sp.id(), sp.name()))
                 .collect(Collectors.toList());
     }
 

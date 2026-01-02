@@ -25,8 +25,8 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
 
         SalePointCostEntity entity = new SalePointCostEntity(
                 entityId,
-                salePointCost.getSalePointOrigin() != null ? salePointCost.getSalePointOrigin().getId() : null,
-                salePointCost.getSalePointDestination() != null ? salePointCost.getSalePointDestination().getId() : null,
+                salePointCost.getSalePointOrigin() != null ? salePointCost.getSalePointOrigin().id() : null,
+                salePointCost.getSalePointDestination() != null ? salePointCost.getSalePointDestination().id() : null,
                 salePointCost.getCost()
         );
         SalePointCostEntity saved = springDataRepo.save(entity);

@@ -25,11 +25,11 @@ public class SalePointServiceTest {
 
         SalePoint created = service.createSalePoint(sp);
         assertNotNull(created);
-        assertEquals(1L, created.getId());
+        assertEquals(1L, created.id());
 
         SalePoint fetched = service.getSalePointById(1L);
         assertNotNull(fetched);
-        assertEquals("Test SP", fetched.getName());
+        assertEquals("Test SP", fetched.name());
 
         service.deleteSalePoint(1L);
         verify(repo, times(1)).deleteById(1L);

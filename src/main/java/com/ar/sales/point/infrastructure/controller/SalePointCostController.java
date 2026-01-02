@@ -30,7 +30,7 @@ public class SalePointCostController {
     public SalePointCostResponse create(@RequestBody SalePointCostRequest req) {
         SalePointCost domain = new SalePointCost(req.getId(), new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
         SalePointCost saved = useCase.createSalePointCost(domain);
-        return new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin() != null ? saved.getSalePointOrigin().getId() : null, saved.getSalePointDestination() != null ? saved.getSalePointDestination().getId() : null, saved.getCost());
+        return new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin() != null ? saved.getSalePointOrigin().id() : null, saved.getSalePointDestination() != null ? saved.getSalePointDestination().id() : null, saved.getCost());
     }
 
     @Operation(summary = "Update a sale point cost")
@@ -38,7 +38,7 @@ public class SalePointCostController {
     public SalePointCostResponse update(@PathVariable Long id, @RequestBody SalePointCostRequest req) {
         SalePointCost domain = new SalePointCost(id, new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
         SalePointCost updated = useCase.updateSalePointCost(id, domain);
-        return new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin() != null ? updated.getSalePointOrigin().getId() : null, updated.getSalePointDestination() != null ? updated.getSalePointDestination().getId() : null, updated.getCost());
+        return new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin() != null ? updated.getSalePointOrigin().id() : null, updated.getSalePointDestination() != null ? updated.getSalePointDestination().id() : null, updated.getCost());
     }
 
     @Operation(summary = "Get a sale point cost by id")
@@ -46,13 +46,13 @@ public class SalePointCostController {
     public SalePointCostResponse getById(@PathVariable Long id) {
         SalePointCost spc = useCase.getSalePointCostById(id);
         if (spc == null) throw new ResourceNotFoundException("SalePointCost with id " + id + " not found");
-        return new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().getId() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().getId() : null, spc.getCost());
+        return new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().id() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().id() : null, spc.getCost());
     }
 
     @Operation(summary = "List all sale point costs")
     @GetMapping(produces = "application/json")
     public List<SalePointCostResponse> getAll() {
-        return useCase.getAllSalePointCosts().stream().map(spc -> new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().getId() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().getId() : null, spc.getCost())).collect(Collectors.toList());
+        return useCase.getAllSalePointCosts().stream().map(spc -> new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().id() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().id() : null, spc.getCost())).collect(Collectors.toList());
     }
 
     @Operation(summary = "Delete a sale point cost")
