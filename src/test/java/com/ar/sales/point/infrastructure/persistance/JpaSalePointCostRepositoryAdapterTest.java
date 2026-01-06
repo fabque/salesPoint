@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.domain.model.SalePointCost;
+import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointCostRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

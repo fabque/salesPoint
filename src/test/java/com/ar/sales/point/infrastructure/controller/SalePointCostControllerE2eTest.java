@@ -77,4 +77,21 @@ public class SalePointCostControllerE2eTest {
         assertNotNull(getAfterDelete.getBody());
         assertTrue(getAfterDelete.getBody().contains("SalePointCost with id"));
     }
+
+    @Test
+    void update_nonexistent_id_returns404() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Long nonexistentId = 9999999L;
+        SalePointCostRequest updateReq = new SalePointCostRequest();
+        updateReq.setOriginId(1L);
+        updateReq.setDestinationId(2L);
+        updateReq.setCost(5.5);
+
+        ResponseEntity<String> resp = restTemplate.exchange(baseUrl() + "/" + nonexistentId, HttpMethod.PUT, new HttpEntity<>(updateReq, headers), String.class);
+        assertEquals(404, resp.getStatusCodeValue());
+        assertNotNull(resp.getBody());
+        assertTrue(resp.getBody().contains("SalePointCost with id"));
+    }
 }

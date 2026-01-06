@@ -1,4 +1,4 @@
-package com.ar.sales.point.infrastructure.persistance;
+package com.ar.sales.point.infrastructure.persistance.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

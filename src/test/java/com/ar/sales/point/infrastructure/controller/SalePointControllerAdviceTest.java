@@ -1,6 +1,7 @@
 package com.ar.sales.point.infrastructure.controller;
 
 import com.ar.sales.point.application.port.in.SalePointUseCase;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointResponse;
@@ -34,7 +35,7 @@ public class SalePointControllerAdviceTest {
     @Test
     void getNonExistingSalePoint_returns404WithErrorResponse() throws Exception {
         // Arrange
-        when(salePointUseCase.getSalePointById(1L)).thenReturn(null);
+        when(salePointUseCase.getSalePointById(1L)).thenThrow(new ResourceNotFoundException("SalePoint with id 1 not found"));
 
         // Act & Assert
         mockMvc.perform(get("/salepoints/1"))
@@ -67,4 +68,3 @@ public class SalePointControllerAdviceTest {
         verify(useCase, times(1)).createSalePoint(any(SalePoint.class));
     }
 }
-

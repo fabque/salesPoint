@@ -2,6 +2,8 @@ package com.ar.sales.point.infrastructure.persistance;
 
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
+import com.ar.sales.point.infrastructure.persistance.entities.SalePointEntity;
+import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

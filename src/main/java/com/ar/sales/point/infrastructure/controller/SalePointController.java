@@ -5,6 +5,7 @@ import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointResponse;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,8 +63,8 @@ public class SalePointController {
     }
 
     @Operation(summary = "Delete a sale point by id", description = "Deletes a sale point by its id.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "Deleted")
-    @org.springframework.web.bind.annotation.DeleteMapping(value = "/{id}")
+    @ApiResponse(responseCode = "204", description = "Deleted")
+    @DeleteMapping(value = "/{id}")
     public void deleteSalePoint(@PathVariable("id") Long id) {
         salePointUseCase.deleteSalePoint(id);
     }
