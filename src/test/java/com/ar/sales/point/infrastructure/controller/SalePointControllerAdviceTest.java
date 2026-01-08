@@ -1,6 +1,7 @@
 package com.ar.sales.point.infrastructure.controller;
 
 import com.ar.sales.point.application.port.in.SalePointUseCase;
+import com.ar.sales.point.domain.model.SalePointCost;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,12 +62,12 @@ public class SalePointControllerAdviceTest {
         when(useCase.createSalePoint(any(SalePoint.class))).thenReturn(returned);
 
         // Act
-        SalePointResponse resp = controller.saveSalePoint(req);
+        ResponseEntity<SalePointResponse> resp = controller.saveSalePoint(req);
 
         // Assert
         assertNotNull(resp);
-        assertEquals(1L, resp.getId());
-        assertEquals("My SP", resp.getName());
+        assertEquals(1L, resp.getBody().getId());
+        assertEquals("My SP", resp.getBody().getName());
         verify(useCase, times(1)).createSalePoint(any(SalePoint.class));
     }
 }

@@ -2,16 +2,21 @@ package com.ar.sales.point.infrastructure.persistance;
 
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
+import com.ar.sales.point.infrastructure.exception.ConflictException;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import com.ar.sales.point.infrastructure.persistance.entities.SalePointEntity;
 import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
 
+    public static final String SALE_POINT_NOT_FOUND = "SalePoint not found";
+    public static final String SALE_POINT_ALREADY_EXISTS = "SalePoint already exists";
     private  final SpringDataSalePointRepository springDataSalePointRepository;
 
     public JpaSalePointRepositoryAdapter(SpringDataSalePointRepository springDataSalePointRepository) {
@@ -20,9 +25,21 @@ public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
 
     @Override
     public SalePoint save(SalePoint salePoint) {
-        SalePointEntity entity = new SalePointEntity(salePoint.id(), salePoint.name());
-        SalePointEntity saveEntity = springDataSalePointRepository.save(entity);
+        Optional<SalePointEntity> entity = springDataSalePointRepository.findById(salePoint.id());
+        entity.ifPresent(e -> {
+                throw new ConflictException(SALE_POINT_ALREADY_EXISTS);
+        });
+        SalePointEntity entityNew = new SalePointEntity(salePoint.id(), salePoint.name());
+        SalePointEntity saveEntity = springDataSalePointRepository.save(entityNew);
         return new SalePoint(saveEntity.getId(), saveEntity.getName());
+    }
+
+    @Override
+    public SalePoint update(SalePoint salePoint) {
+        SalePointEntity entity = springDataSalePointRepository.findById(salePoint.id()).orElseThrow(() ->
+                new ResourceNotFoundException(SALE_POINT_NOT_FOUND));
+        SalePointEntity updatedEntity = springDataSalePointRepository.save(entity);
+        return new SalePoint(updatedEntity.getId(), updatedEntity.getName());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.ar.sales.point.application.service;
 
 import com.ar.sales.point.application.port.out.SalePointCostRepositoryPort;
+import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.domain.model.SalePointCost;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,8 @@ public class SalePointCostServiceTest {
     @Test
     void create_update_get_delete_flow() {
         SalePointCostRepositoryPort repo = mock(SalePointCostRepositoryPort.class);
-        SalePointCostService service = new SalePointCostService(repo);
+        SalePointRepositoryPort salePointRepo = mock(SalePointRepositoryPort.class);
+        SalePointCostService service = new SalePointCostService(repo, salePointRepo);
 
         SalePointCost input = new SalePointCost(null, new SalePoint(1L, "A"), new SalePoint(2L, "B"), 10.0);
         SalePointCost saved = new SalePointCost(1L, new SalePoint(1L, "A"), new SalePoint(2L, "B"), 10.0);
@@ -47,7 +49,8 @@ public class SalePointCostServiceTest {
     @Test
     void list_all() {
         SalePointCostRepositoryPort repo = mock(SalePointCostRepositoryPort.class);
-        SalePointCostService service = new SalePointCostService(repo);
+        SalePointRepositoryPort salePointRepo = mock(SalePointRepositoryPort.class);
+        SalePointCostService service = new SalePointCostService(repo, salePointRepo);
 
         when(repo.findAll()).thenReturn(List.of(
                 new SalePointCost(1L, new SalePoint(1L, "A"), new SalePoint(2L, "B"), 5.0),

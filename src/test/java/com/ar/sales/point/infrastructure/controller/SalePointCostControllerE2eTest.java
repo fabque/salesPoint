@@ -40,7 +40,7 @@ public class SalePointCostControllerE2eTest {
         createReq.setCost(12.34);
 
         ResponseEntity<SalePointCostResponse> createResp = restTemplate.postForEntity(baseUrl(), new HttpEntity<>(createReq, headers), SalePointCostResponse.class);
-        assertEquals(200, createResp.getStatusCodeValue());
+        assertEquals(201, createResp.getStatusCodeValue());
         assertNotNull(createResp.getBody());
         Long createdId = createResp.getBody().getId();
         assertNotNull(createdId);
@@ -75,7 +75,7 @@ public class SalePointCostControllerE2eTest {
         ResponseEntity<String> getAfterDelete = restTemplate.getForEntity(baseUrl() + "/" + createdId, String.class);
         assertEquals(404, getAfterDelete.getStatusCodeValue());
         assertNotNull(getAfterDelete.getBody());
-        assertTrue(getAfterDelete.getBody().contains("SalePointCost with id"));
+        assertTrue(getAfterDelete.getBody().contains("SalePointCost not found"));
     }
 
     @Test
@@ -92,6 +92,6 @@ public class SalePointCostControllerE2eTest {
         ResponseEntity<String> resp = restTemplate.exchange(baseUrl() + "/" + nonexistentId, HttpMethod.PUT, new HttpEntity<>(updateReq, headers), String.class);
         assertEquals(404, resp.getStatusCodeValue());
         assertNotNull(resp.getBody());
-        assertTrue(resp.getBody().contains("SalePointCost with id"));
+        assertTrue(resp.getBody().contains("SalePointCost not found"));
     }
 }

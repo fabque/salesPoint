@@ -4,6 +4,7 @@ import com.ar.sales.point.application.port.in.SalePointUseCase;
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class SalePointService implements SalePointUseCase {
     @CacheEvict(value = "salePoints", allEntries = true)
     public SalePoint createSalePoint(SalePoint salePoint) {
         return salePointRepositoryPort.save(salePoint);
+    }
+
+    @CachePut(value = "salePoints", key = "#id")
+    public SalePoint updateSalePoint(SalePoint salePoint) {
+        return salePointRepositoryPort.update(salePoint);
     }
 
     @Override

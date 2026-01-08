@@ -6,6 +6,8 @@ import com.ar.sales.point.domain.model.SalePointCost;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointCostRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointCostResponse;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,10 +28,11 @@ public class SalePointCostController {
 
     @Operation(summary = "Create a sale point cost")
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public SalePointCostResponse create(@RequestBody SalePointCostRequest req) {
+    public ResponseEntity<?> create(@RequestBody SalePointCostRequest req) {
         SalePointCost domain = new SalePointCost(req.getId(), new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
         SalePointCost saved = useCase.createSalePointCost(domain);
-        return new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin() != null ? saved.getSalePointOrigin().id() : null, saved.getSalePointDestination() != null ? saved.getSalePointDestination().id() : null, saved.getCost());
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin().id(), saved.getSalePointDestination().id(), saved.getCost()));
     }
 
     @Operation(summary = "Update a sale point cost")
@@ -37,15 +40,15 @@ public class SalePointCostController {
     public SalePointCostResponse update(@PathVariable Long id, @RequestBody SalePointCostRequest req) {
         SalePointCost domain = new SalePointCost(id, new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
         SalePointCost updated = useCase.updateSalePointCost(id, domain);
-        return new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin() != null ? updated.getSalePointOrigin().id() : null, updated.getSalePointDestination() != null ? updated.getSalePointDestination().id() : null, updated.getCost());
+        return new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin().id(), updated.getSalePointDestination().id(), updated.getCost());
     }
 
     @Operation(summary = "Get a sale point cost by id")
     @GetMapping(value = "/{id}", produces = "application/json")
     public SalePointCostResponse getById(@PathVariable Long id) {
         SalePointCost spc = useCase.getSalePointCostById(id);
-        if (spc == null) throw new ResourceNotFoundException("SalePointCost with id " + id + " not found");
-        return new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().id() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().id() : null, spc.getCost());
+        //if (spc == null) throw new ResourceNotFoundException("SalePointCost with id " + id + " not found");
+        return new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin().id(), spc.getSalePointDestination().id(), spc.getCost());
     }
 
     @Operation(summary = "List all sale point costs")
