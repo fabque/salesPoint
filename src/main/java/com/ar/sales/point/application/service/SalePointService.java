@@ -3,6 +3,9 @@ package com.ar.sales.point.application.service;
 import com.ar.sales.point.application.port.in.SalePointUseCase;
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
+import com.ar.sales.point.domain.model.SalePointCost;
+import com.ar.sales.point.infrastructure.exception.ConflictException;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,18 +24,31 @@ public class SalePointService implements SalePointUseCase {
 
     @Override
     @CacheEvict(value = "salePoints", allEntries = true)
-    public SalePoint createSalePoint(SalePoint salePoint) {
-        return salePointRepositoryPort.save(salePoint);
+    public SalePoint createSalePoint(SalePoint salePoint) throws ConflictException {
+        try {
+            return salePointRepositoryPort.save(salePoint);
+        } catch (ConflictException e) {
+            throw e;
+        }
     }
 
     @CachePut(value = "salePoints", key = "#id")
-    public SalePoint updateSalePoint(SalePoint salePoint) {
-        return salePointRepositoryPort.update(salePoint);
+    public SalePoint updateSalePoint(SalePoint salePoint) throws ResourceNotFoundException {
+        try {
+            return salePointRepositoryPort.update(salePoint);
+        } catch (ResourceNotFoundException e) {
+            throw e;
+        }
     }
 
     @Override
     @Cacheable(value = "salePoints", key = "#id")
-    public SalePoint getSalePointById(Long id) {
+    public SalePoint getSalePointById(Long id) throws ResourceNotFoundException {
+        try {
+            salePointRepositoryPort.findById(id);
+        } catch (Exception e) {
+            throw e;
+        }
         return salePointRepositoryPort.findById(id);
     }
 
@@ -44,7 +60,13 @@ public class SalePointService implements SalePointUseCase {
 
     @Override
     @CacheEvict(value= "salePoints", allEntries = true)
-    public void deleteSalePoint(Long id) {
-        salePointRepositoryPort.deleteById(id);
+    public void deleteSalePoint(Long id) throws ResourceNotFoundException {
+        try {
+            SalePoint deleteEntity = salePointRepositoryPort.findById(id);
+            salePointRepositoryPort.deleteById(deleteEntity.id());
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 }

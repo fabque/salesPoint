@@ -2,6 +2,8 @@ package com.ar.sales.point.application.service;
 
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class SalePointServiceTest {
 
+    @SneakyThrows
     @Test
     void create_and_get_and_delete_flow() {
         SalePointRepositoryPort repo = mock(SalePointRepositoryPort.class);
@@ -27,12 +30,21 @@ public class SalePointServiceTest {
         assertNotNull(created);
         assertEquals(1L, created.id());
 
-        SalePoint fetched = service.getSalePointById(1L);
+        SalePoint fetched = null;
+        try {
+            fetched = service.getSalePointById(1L);
+        } catch (ResourceNotFoundException e) {
+            fail("ResourceNotFoundException should not be thrown");
+        }
         assertNotNull(fetched);
         assertEquals("Test SP", fetched.name());
 
         service.deleteSalePoint(1L);
-        verify(repo, times(1)).deleteById(1L);
+        try {
+            verify(repo, times(1)).deleteById(1L);
+        } catch (ResourceNotFoundException e) {
+            fail("ResourceNotFoundException should not be thrown");
+        }
     }
 
     @Test

@@ -27,6 +27,12 @@ public class SalePointCostEntity {
     public SalePointCostEntity() {
     }
 
+    public SalePointCostEntity(Long originId, Long destinationId, Double cost) {
+        this.originId = originId;
+        this.destinationId = destinationId;
+        this.cost = cost;
+    }
+
     public SalePointCostEntity(Long id, Long originId, Long destinationId, Double cost) {
         this.id = id;
         this.originId = originId;

@@ -1,19 +1,19 @@
 package com.ar.sales.point.infrastructure.controller;
 
 import com.ar.sales.point.application.port.in.SalePointUseCase;
-import com.ar.sales.point.domain.model.SalePointCost;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointResponse;
 import com.ar.sales.point.infrastructure.exception.GlobalExceptionHandler;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,17 +22,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = SalePointController.class)
 @Import(GlobalExceptionHandler.class)
-public class SalePointControllerAdviceTest {
+public class SalePointControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private SalePointUseCase salePointUseCase;
 
     @Test
@@ -43,11 +43,10 @@ public class SalePointControllerAdviceTest {
         // Act & Assert
         mockMvc.perform(get("/salepoints/1"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
-                .andExpect(jsonPath("$.error").value("Not Found"))
-                .andExpect(jsonPath("$.message").value("SalePoint with id 1 not found"));
+                .andExpect(content().string("SalePoint with id 1 not found"));
     }
 
+    @SneakyThrows
     @Test
     void saveSalePoint_returnsResponse() {
         // Arrange
@@ -62,7 +61,7 @@ public class SalePointControllerAdviceTest {
         when(useCase.createSalePoint(any(SalePoint.class))).thenReturn(returned);
 
         // Act
-        ResponseEntity<SalePointResponse> resp = controller.saveSalePoint(req);
+        ResponseEntity<SalePointResponse> resp = (ResponseEntity<SalePointResponse>) controller.saveSalePoint(req);
 
         // Assert
         assertNotNull(resp);

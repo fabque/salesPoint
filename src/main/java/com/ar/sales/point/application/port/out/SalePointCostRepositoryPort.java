@@ -8,6 +8,7 @@ public interface SalePointCostRepositoryPort {
 
     SalePointCost save(SalePointCost salePointCost);
     SalePointCost findById(Long id);
+    SalePointCost findByOriginAndDestination(Long originId, Long destinationId);
     List<SalePointCost> findAll();
     void deleteById(Long id);
 }

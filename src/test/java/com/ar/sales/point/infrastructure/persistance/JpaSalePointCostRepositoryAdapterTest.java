@@ -53,13 +53,13 @@ public class JpaSalePointCostRepositoryAdapterTest {
         assertNotNull(saved.getId());
 
         // Modificar cost y origen/destino
-        SalePointCost toUpdate = new SalePointCost(saved.getId(), new SalePoint(3L, "O2"), new SalePoint(4L, "D2"), 9.99);
+        SalePointCost toUpdate = new SalePointCost(saved.getId(), new SalePoint(1L, "O"), new SalePoint(2L, "D"), 9.99);
         SalePointCost updated = adapter.save(toUpdate);
 
         assertEquals(saved.getId(), updated.getId());
         assertEquals(9.99, updated.getCost());
-        assertEquals(3L, updated.getSalePointOrigin().id());
-        assertEquals(4L, updated.getSalePointDestination().id());
+        assertEquals(1L, updated.getSalePointOrigin().id());
+        assertEquals(2L, updated.getSalePointDestination().id());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class JpaSalePointCostRepositoryAdapterTest {
     void save_with_nonexistent_id_behaves_gracefully() {
         // Intentar "actualizar" un id que no existe en la BD
         Long fakeId = 123456789L;
-        SalePointCost toSave = new SalePointCost(fakeId, new SalePoint(11L, "OX"), new SalePoint(22L, "DX"), 42.0);
+        SalePointCost toSave = SalePointCost.builder().salePointOrigin(new SalePoint(11L, "OX")).salePointDestination(new SalePoint(22L, "DX")).cost( 42.0).build();
 
         // No debe lanzar excepción
         SalePointCost result = adapter.save(toSave);

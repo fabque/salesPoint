@@ -1,7 +1,6 @@
 package com.ar.sales.point.infrastructure.controller.dto;
 
 public class SalePointCostRequest {
-    private Long id;
     private Long originId;
     private Long destinationId;
     private Double cost;
@@ -9,19 +8,10 @@ public class SalePointCostRequest {
     public SalePointCostRequest() {
     }
 
-    public SalePointCostRequest(Long id, Long originId, Long destinationId, Double cost) {
-        this.id = id;
+    public SalePointCostRequest(Long originId, Long destinationId, Double cost) {
         this.originId = originId;
         this.destinationId = destinationId;
         this.cost = cost;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getOriginId() {

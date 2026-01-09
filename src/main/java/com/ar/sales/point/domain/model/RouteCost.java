@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class SalePointCost {
-    private Long id;
-    private SalePoint salePointOrigin;
-    private SalePoint salePointDestination;
-    private Double cost;
+public class RouteCost {
+    private List<Long> path;
+    private double cost;
 }

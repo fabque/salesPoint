@@ -4,6 +4,7 @@ import com.ar.sales.point.application.port.in.SalePointUseCase;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointRequest;
 import com.ar.sales.point.infrastructure.controller.dto.SalePointResponse;
+import com.ar.sales.point.infrastructure.exception.ConflictException;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,16 +41,26 @@ public class SalePointController {
         @ApiResponse(responseCode = "409", description = "Conflict - Sale point already exists")
     })
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<SalePointResponse> saveSalePoint(@RequestBody SalePointRequest salePointRequest) {
+    public ResponseEntity<?> saveSalePoint(@RequestBody SalePointRequest salePointRequest) {
         final SalePoint salePoint = new SalePoint(salePointRequest.getId(), salePointRequest.getName());
-        final SalePoint salePointCreated = salePointUseCase.createSalePoint(salePoint);
+        final SalePoint salePointCreated;
+        try {
+            salePointCreated = salePointUseCase.createSalePoint(salePoint);
+        } catch (ConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(new SalePointResponse(salePointCreated.id(), salePointCreated.name()));
     }
 
     @Operation(summary = "Get a sale point by id", description = "Returns a sale point by its id.")
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<?> getSalePointById(@PathVariable("id") Long id) {
-        final SalePoint salePoint = salePointUseCase.getSalePointById(id);
+        final SalePoint salePoint;
+        try {
+            salePoint = salePointUseCase.getSalePointById(id);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body(new SalePointResponse(salePoint.id(), salePoint.name()));
     }
@@ -69,6 +80,10 @@ public class SalePointController {
     })
     @DeleteMapping(value = "/{id}")
     public void deleteSalePoint(@PathVariable("id") Long id) {
-        salePointUseCase.deleteSalePoint(id);
+        try {
+            salePointUseCase.deleteSalePoint(id);
+        } catch (ResourceNotFoundException e) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.ar.sales.point.infrastructure.persistance;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.ar.sales.point.domain.model.SalePoint;
-import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,22 +15,21 @@ import java.util.List;
 public class JpaSalePointRepositoryAdapterTest {
 
     @Autowired
-    private SpringDataSalePointRepository springDataSalePointRepository;
-
-    @Autowired
     private JpaSalePointRepositoryAdapter adapter;
 
     @Test
     void save_and_find() {
         SalePoint sp = new SalePoint(1L, "H2 SP");
-        SalePoint saved = adapter.save(sp);
+
+        SalePoint saved = assertDoesNotThrow(() -> adapter.save(sp), "save should not throw ConflictException");
+        assertNotNull(saved);
         assertNotNull(saved.id());
-        SalePoint fetched = adapter.findById(saved.id());
+
+        SalePoint fetched = assertDoesNotThrow(() -> adapter.findById(saved.id()), "findById should not throw ResourceNotFoundException");
         assertNotNull(fetched);
         assertEquals("H2 SP", fetched.name());
 
         List<SalePoint> all = adapter.findAll();
-        assertTrue(all.size() >= 1);
+        assertFalse(all.isEmpty(), "findAll should return at least one element");
     }
 }
-

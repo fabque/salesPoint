@@ -4,6 +4,8 @@ import com.ar.sales.point.application.port.out.SalePointCostRepositoryPort;
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.domain.model.SalePointCost;
+import com.ar.sales.point.infrastructure.exception.ConflictException;
+import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -26,11 +28,22 @@ public class SalePointCostServiceTest {
         when(repo.save(any(SalePointCost.class))).thenReturn(saved);
         when(repo.findById(1L)).thenReturn(saved);
 
-        SalePointCost created = service.createSalePointCost(input);
+
+        SalePointCost created = null;
+        try {
+            created = service.createSalePointCost(input);
+        } catch (ConflictException e) {
+            fail("ConflictException should not be thrown");
+        }
         assertNotNull(created);
         assertEquals(1L, created.getId());
 
-        SalePointCost fetched = service.getSalePointCostById(1L);
+        SalePointCost fetched = null;
+        try {
+            fetched = service.getSalePointCostById(1L);
+        } catch (ResourceNotFoundException e) {
+            fail("ResourceNotFoundException should not be thrown");
+        }
         assertNotNull(fetched);
         assertEquals(10.0, fetched.getCost());
 
@@ -38,11 +51,20 @@ public class SalePointCostServiceTest {
         SalePointCost updatedSaved = new SalePointCost(1L, new SalePoint(1L, "A"), new SalePoint(2L, "B"), 12.5);
         when(repo.save(any(SalePointCost.class))).thenReturn(updatedSaved);
 
-        SalePointCost updated = service.updateSalePointCost(1L, updatedInput);
+        SalePointCost updated = null;
+        try {
+            updated = service.updateSalePointCost(1L, updatedInput);
+        } catch (ResourceNotFoundException e) {
+            fail("ResourceNotFoundException should not be thrown");
+        }
         assertNotNull(updated);
         assertEquals(12.5, updated.getCost());
 
-        service.deleteSalePointCost(1L);
+        try {
+            service.deleteSalePointCost(1L);
+        } catch (ResourceNotFoundException e) {
+            fail("ResourceNotFoundException should not be thrown");
+        }
         verify(repo, times(1)).deleteById(1L);
     }
 
