@@ -53,9 +53,7 @@ public class SalePointControllerTest {
         SalePointUseCase useCase = mock(SalePointUseCase.class);
         SalePointController controller = new SalePointController(useCase);
 
-        SalePointRequest req = new SalePointRequest();
-        req.setId(1L);
-        req.setName("My SP");
+        SalePointRequest req = new SalePointRequest(1L, "My SP");
 
         SalePoint returned = new SalePoint(1L, "My SP");
         when(useCase.createSalePoint(any(SalePoint.class))).thenReturn(returned);
@@ -65,8 +63,8 @@ public class SalePointControllerTest {
 
         // Assert
         assertNotNull(resp);
-        assertEquals(1L, resp.getBody().getId());
-        assertEquals("My SP", resp.getBody().getName());
+        assertEquals(1L, resp.getBody().id());
+        assertEquals("My SP", resp.getBody().name());
         verify(useCase, times(1)).createSalePoint(any(SalePoint.class));
     }
 }

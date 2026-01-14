@@ -32,9 +32,9 @@ public class SalePointCostController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> create(@RequestBody SalePointCostRequest req) throws ConflictException {
         SalePointCost domain = SalePointCost.builder()
-                .salePointOrigin(new SalePoint(req.getOriginId(), null))
-                .salePointDestination(new SalePoint(req.getDestinationId(), null))
-                .cost(req.getCost())
+                .salePointOrigin(new SalePoint(req.originId(), null))
+                .salePointDestination(new SalePoint(req.destinationId(), null))
+                .cost(req.cost())
                 .build();
         SalePointCost saved = useCase.createSalePointCost(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -44,7 +44,7 @@ public class SalePointCostController {
     @Operation(summary = "Update a sale point cost")
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SalePointCostRequest req) throws ResourceNotFoundException {
-        SalePointCost domain = new SalePointCost(id, new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
+        SalePointCost domain = new SalePointCost(id, new SalePoint(req.originId(), null), new SalePoint(req.destinationId(), null), req.cost());
         SalePointCost updated = useCase.updateSalePointCost(id, domain);
         return ResponseEntity.status(200).body(new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin().getId(), updated.getSalePointDestination().getId(), updated.getCost()));
     }

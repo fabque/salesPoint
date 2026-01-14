@@ -42,7 +42,7 @@ public class SalePointController {
     })
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> saveSalePoint(@RequestBody SalePointRequest salePointRequest) {
-        final SalePoint salePoint = new SalePoint(salePointRequest.getId(), salePointRequest.getName());
+        final SalePoint salePoint = new SalePoint(salePointRequest.id(), salePointRequest.name());
         final SalePoint salePointCreated;
         try {
             salePointCreated = salePointUseCase.createSalePoint(salePoint);
