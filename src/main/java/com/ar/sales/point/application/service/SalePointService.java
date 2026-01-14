@@ -23,7 +23,7 @@ public class SalePointService implements SalePointUseCase {
     }
 
     @Override
-    @CacheEvict(value = "salePoints", allEntries = true)
+    @CacheEvict(value = {"salePoints", "salePointCosts", "routeCosts" }, allEntries = true)
     public SalePoint createSalePoint(SalePoint salePoint) throws ConflictException {
         try {
             return salePointRepositoryPort.save(salePoint);
@@ -38,6 +38,7 @@ public class SalePointService implements SalePointUseCase {
     }
 
     @CachePut(value = "salePoints", key = "#id")
+    @CacheEvict(value = {"salePointCosts", "routeCosts" }, allEntries = true)
     public SalePoint updateSalePoint(SalePoint salePoint) throws ResourceNotFoundException {
         try {
             return salePointRepositoryPort.update(salePoint);
@@ -64,7 +65,7 @@ public class SalePointService implements SalePointUseCase {
     }
 
     @Override
-    @CacheEvict(value= "salePoints", allEntries = true)
+    @CacheEvict(value = {"salePoints", "salePointCosts", "routeCosts" }, allEntries = true)
     public void deleteSalePoint(Long id) throws ResourceNotFoundException {
         try {
             SalePoint deleteEntity = salePointRepositoryPort.findById(id);

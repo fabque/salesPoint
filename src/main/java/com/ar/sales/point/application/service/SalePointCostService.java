@@ -32,7 +32,7 @@ public class SalePointCostService implements SalePointCostUseCase {
     }
 
     @Override
-    @CacheEvict(value = "salePointCosts", allEntries = true)
+    @CacheEvict(value = {"salePointCosts", "routeCosts"}, allEntries = true)
     public SalePointCost createSalePointCost(SalePointCost salePointCost) throws ConflictException {
         //validations
         if (!isValidSalePointCost(salePointCost)) {
@@ -122,6 +122,12 @@ public class SalePointCostService implements SalePointCostUseCase {
         } catch (ResourceNotFoundException e) {
             throw e;
         }
+    }
+
+    @Override
+    @CacheEvict(value = {"salePoints", "salePointCosts", "routeCosts"}, allEntries = true)
+    public void clearAllCaches() {
+        //  limpiar los caché manualmente
     }
 
     @Override

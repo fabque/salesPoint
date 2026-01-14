@@ -84,5 +84,8 @@ public class SalePointCostController {
     public void initDDBB() {
         useCase.initCostDDBB();
     }
-
+    @GetMapping(value = "clearCache")
+    public void clearAllCaches() {
+        useCase.clearAllCaches();
+    }
 }
