@@ -17,7 +17,7 @@ public class CalculateRouteUtil {
     public static RouteCost getOptimalRoute(SalePoint origin, SalePoint destiny, List<SalePoint> stationList, List<SalePointCost> routeList) {
         if (routeList.isEmpty()) {
             List<Long> result = new ArrayList<>();
-            return RouteCost.builder().path(result).cost(0).build();
+            return new RouteCost(result, 0);
         }
         Map<Long, Double> costs = new HashMap<>();
         Map<Long, Long> predecesors = new HashMap<>();
@@ -66,6 +66,7 @@ public class CalculateRouteUtil {
             step = predecesors.get(step);
         }
 
-        return RouteCost.builder().path(path).cost(costs.get(destiny.id())).build();
+        return new RouteCost(path, costs.get(destiny.id()));
+
     }
 }
