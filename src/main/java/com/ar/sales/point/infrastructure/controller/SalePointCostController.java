@@ -60,7 +60,7 @@ public class SalePointCostController {
     @Operation(summary = "List all sale point costs")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<SalePointCostResponse>> getAll() {
-        ArrayList<SalePointCostResponse> allSalePointCosts = (ArrayList<SalePointCostResponse>) useCase.getAllSalePointCosts().stream()
+        List<SalePointCostResponse> allSalePointCosts = useCase.getAllSalePointCosts().stream()
                 .map(spc -> new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().id() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().id() : null, spc.getCost()))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(allSalePointCosts);
