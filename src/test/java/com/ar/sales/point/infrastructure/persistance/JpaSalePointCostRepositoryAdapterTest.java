@@ -33,13 +33,12 @@ public class JpaSalePointCostRepositoryAdapterTest {
         assertEquals(15.5, fetched.getCost());
         assertNotNull(fetched.getSalePointOrigin());
         assertNotNull(fetched.getSalePointDestination());
-        assertEquals(10L, fetched.getSalePointOrigin().id());
-        assertEquals(20L, fetched.getSalePointDestination().id());
+        assertEquals(10L, fetched.getSalePointOrigin().getId());
+        assertEquals(20L, fetched.getSalePointDestination().getId());
 
         List<SalePointCost> all = adapter.findAll();
         assertTrue(all.size() >= 1);
 
-        // Ahora verificamos deleteById (cubrimos el método faltante)
         adapter.deleteById(saved.getId());
         SalePointCost afterDelete = adapter.findById(saved.getId());
         assertNull(afterDelete);
@@ -58,8 +57,8 @@ public class JpaSalePointCostRepositoryAdapterTest {
 
         assertEquals(saved.getId(), updated.getId());
         assertEquals(9.99, updated.getCost());
-        assertEquals(1L, updated.getSalePointOrigin().id());
-        assertEquals(2L, updated.getSalePointDestination().id());
+        assertEquals(1L, updated.getSalePointOrigin().getId());
+        assertEquals(2L, updated.getSalePointDestination().getId());
     }
 
     @Test
@@ -98,8 +97,8 @@ public class JpaSalePointCostRepositoryAdapterTest {
         SalePointCost persisted = adapter.findById(result.getId());
         assertNotNull(persisted);
         assertEquals(42.0, persisted.getCost());
-        assertEquals(11L, persisted.getSalePointOrigin().id());
-        assertEquals(22L, persisted.getSalePointDestination().id());
+        assertEquals(11L, persisted.getSalePointOrigin().getId());
+        assertEquals(22L, persisted.getSalePointDestination().getId());
 
         // Cleanup
         adapter.deleteById(result.getId());

@@ -69,7 +69,7 @@ public class SalePointService implements SalePointUseCase {
     public void deleteSalePoint(Long id) throws ResourceNotFoundException {
         try {
             SalePoint deleteEntity = salePointRepositoryPort.findById(id);
-            salePointRepositoryPort.deleteById(deleteEntity.id());
+            salePointRepositoryPort.deleteById(deleteEntity.getId());
         } catch (Exception e) {
             throw e;
         }

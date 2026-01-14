@@ -28,7 +28,7 @@ public class SalePointServiceTest {
 
         SalePoint created = service.createSalePoint(sp);
         assertNotNull(created);
-        assertEquals(1L, created.id());
+        assertEquals(1L, created.getId());
 
         SalePoint fetched = null;
         try {
@@ -37,7 +37,7 @@ public class SalePointServiceTest {
             fail("ResourceNotFoundException should not be thrown");
         }
         assertNotNull(fetched);
-        assertEquals("Test SP", fetched.name());
+        assertEquals("Test SP", fetched.getName());
 
         service.deleteSalePoint(1L);
         try {

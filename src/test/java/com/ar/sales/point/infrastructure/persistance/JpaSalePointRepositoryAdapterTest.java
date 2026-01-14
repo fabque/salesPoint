@@ -23,11 +23,11 @@ public class JpaSalePointRepositoryAdapterTest {
 
         SalePoint saved = assertDoesNotThrow(() -> adapter.save(sp), "save should not throw ConflictException");
         assertNotNull(saved);
-        assertNotNull(saved.id());
+        assertNotNull(saved.getId());
 
-        SalePoint fetched = assertDoesNotThrow(() -> adapter.findById(saved.id()), "findById should not throw ResourceNotFoundException");
+        SalePoint fetched = assertDoesNotThrow(() -> adapter.findById(saved.getId()), "findById should not throw ResourceNotFoundException");
         assertNotNull(fetched);
-        assertEquals("H2 SP", fetched.name());
+        assertEquals("H2 SP", fetched.getName());
 
         List<SalePoint> all = adapter.findAll();
         assertFalse(all.isEmpty(), "findAll should return at least one element");

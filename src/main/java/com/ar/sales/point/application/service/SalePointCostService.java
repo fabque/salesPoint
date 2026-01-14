@@ -43,22 +43,22 @@ public class SalePointCostService implements SalePointCostUseCase {
 
     private boolean isValidSalePointCost(SalePointCost salePointCost) {
          try {
-            SalePoint origin = salePointService.getSalePointById(salePointCost.getSalePointOrigin().id());
-            SalePoint destination = salePointService.getSalePointById(salePointCost.getSalePointDestination().id());
+            SalePoint origin = salePointService.getSalePointById(salePointCost.getSalePointOrigin().getId());
+            SalePoint destination = salePointService.getSalePointById(salePointCost.getSalePointDestination().getId());
         } catch (ResourceNotFoundException e) {
             return false;
         }
         if (salePointCost.getCost() < 0) {
             return false;
         }
-        if (salePointCost.getSalePointOrigin().id().equals(salePointCost.getSalePointDestination().id())
+        if (salePointCost.getSalePointOrigin().getId().equals(salePointCost.getSalePointDestination().getId())
         && salePointCost.getCost() != 0) {
             return false;
         }
         //  validar camino directo A a B o B a A
         SalePointCost existsDirectRoute = repository.findByOriginAndDestination(
-                salePointCost.getSalePointOrigin().id(),
-                salePointCost.getSalePointDestination().id()
+                salePointCost.getSalePointOrigin().getId(),
+                salePointCost.getSalePointDestination().getId()
         );
         if (existsDirectRoute != null) {
             return false;

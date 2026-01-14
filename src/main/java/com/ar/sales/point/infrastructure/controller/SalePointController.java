@@ -49,7 +49,7 @@ public class SalePointController {
         } catch (ConflictException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SalePointResponse(salePointCreated.id(), salePointCreated.name()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SalePointResponse(salePointCreated.getId(), salePointCreated.getName()));
     }
 
     @Operation(summary = "Get a sale point by id", description = "Returns a sale point by its id.")
@@ -62,14 +62,14 @@ public class SalePointController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(new SalePointResponse(salePoint.id(), salePoint.name()));
+        return ResponseEntity.status(HttpStatus.OK).body(new SalePointResponse(salePoint.getId(), salePoint.getName()));
     }
 
     @Operation(summary = "List all sale points", description = "Returns all sale points.")
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getAllSalePoints() {
         return ResponseEntity.status(HttpStatus.OK).body(salePointUseCase.getAllSalePoints().stream()
-                .map(sp -> new SalePointResponse(sp.id(), sp.name()))
+                .map(sp -> new SalePointResponse(sp.getId(), sp.getName()))
                 .collect(Collectors.toList()));
     }
 

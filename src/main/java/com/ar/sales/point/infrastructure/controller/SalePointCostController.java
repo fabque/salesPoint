@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +38,7 @@ public class SalePointCostController {
                 .build();
         SalePointCost saved = useCase.createSalePointCost(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin().id(), saved.getSalePointDestination().id(), saved.getCost()));
+                new SalePointCostResponse(saved.getId(), saved.getSalePointOrigin().getId(), saved.getSalePointDestination().getId(), saved.getCost()));
     }
 
     @Operation(summary = "Update a sale point cost")
@@ -47,21 +46,21 @@ public class SalePointCostController {
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SalePointCostRequest req) throws ResourceNotFoundException {
         SalePointCost domain = new SalePointCost(id, new SalePoint(req.getOriginId(), null), new SalePoint(req.getDestinationId(), null), req.getCost());
         SalePointCost updated = useCase.updateSalePointCost(id, domain);
-        return ResponseEntity.status(200).body(new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin().id(), updated.getSalePointDestination().id(), updated.getCost()));
+        return ResponseEntity.status(200).body(new SalePointCostResponse(updated.getId(), updated.getSalePointOrigin().getId(), updated.getSalePointDestination().getId(), updated.getCost()));
     }
 
     @Operation(summary = "Get a sale point cost by id")
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<?> getById(@PathVariable Long id) throws ResourceNotFoundException {
         SalePointCost spc = useCase.getSalePointCostById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin().id(), spc.getSalePointDestination().id(), spc.getCost()));
+        return ResponseEntity.status(HttpStatus.OK).body(new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin().getId(), spc.getSalePointDestination().getId(), spc.getCost()));
     }
 
     @Operation(summary = "List all sale point costs")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<SalePointCostResponse>> getAll() {
         List<SalePointCostResponse> allSalePointCosts = useCase.getAllSalePointCosts().stream()
-                .map(spc -> new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().id() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().id() : null, spc.getCost()))
+                .map(spc -> new SalePointCostResponse(spc.getId(), spc.getSalePointOrigin() != null ? spc.getSalePointOrigin().getId() : null, spc.getSalePointDestination() != null ? spc.getSalePointDestination().getId() : null, spc.getCost()))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(allSalePointCosts);
     }

@@ -24,16 +24,16 @@ public class CalculateRouteUtil {
         PriorityQueue<Long> queue = new PriorityQueue<>(Comparator.comparingDouble(costs::get));
 
         stationList.forEach(station -> {
-            costs.put(station.id(), Double.MAX_VALUE);
+            costs.put(station.getId(), Double.MAX_VALUE);
         });
-        costs.put(origin.id(), (double) 0);
+        costs.put(origin.getId(), (double) 0);
 
-        queue.add(origin.id());
+        queue.add(origin.getId());
 
         while (!queue.isEmpty()) {
             Long actual = queue.poll();
 
-            if (actual.equals(destiny.id())) {
+            if (actual.equals(destiny.getId())) {
                 break;
             }
 
@@ -41,21 +41,21 @@ public class CalculateRouteUtil {
                 /**
                  * Examine origen and destination ways (bidirectional)
                  */
-                if (route.getSalePointOrigin().id().equals(actual) || route.getSalePointDestination().id().equals(actual)) {
-                    SalePoint neighbour = (route.getSalePointOrigin().id().equals(actual)) ? route.getSalePointDestination() : route.getSalePointOrigin();
+                if (route.getSalePointOrigin().getId().equals(actual) || route.getSalePointDestination().getId().equals(actual)) {
+                    SalePoint neighbour = (route.getSalePointOrigin().getId().equals(actual)) ? route.getSalePointDestination() : route.getSalePointOrigin();
                     double newCost = costs.get(actual) + route.getCost();
 
-                    if (newCost < costs.get(neighbour.id())) {
-                        costs.put(neighbour.id(), newCost);
-                        predecesors.put(neighbour.id(), actual);
-                        queue.add(neighbour.id());
+                    if (newCost < costs.get(neighbour.getId())) {
+                        costs.put(neighbour.getId(), newCost);
+                        predecesors.put(neighbour.getId(), actual);
+                        queue.add(neighbour.getId());
                     }
                 }
             }
         }
 
         List<Long> path = new LinkedList<>();
-        Long step = destiny.id();
+        Long step = destiny.getId();
 
         if (predecesors.get(step) == null) {
             return null;
@@ -66,7 +66,7 @@ public class CalculateRouteUtil {
             step = predecesors.get(step);
         }
 
-        return new RouteCost(path, costs.get(destiny.id()));
+        return new RouteCost(path, costs.get(destiny.getId()));
 
     }
 }

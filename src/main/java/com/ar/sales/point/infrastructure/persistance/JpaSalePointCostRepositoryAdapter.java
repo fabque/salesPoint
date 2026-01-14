@@ -23,8 +23,8 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
     public SalePointCost save(SalePointCost salePointCost) {
         SalePointCostEntity entity = new SalePointCostEntity(
                 salePointCost.getId() != null ? salePointCost.getId() : null,
-                salePointCost.getSalePointOrigin() != null ? salePointCost.getSalePointOrigin().id() : null,
-                salePointCost.getSalePointDestination() != null ? salePointCost.getSalePointDestination().id() : null,
+                salePointCost.getSalePointOrigin() != null ? salePointCost.getSalePointOrigin().getId() : null,
+                salePointCost.getSalePointDestination() != null ? salePointCost.getSalePointDestination().getId() : null,
                 salePointCost.getCost()
         );
         SalePointCostEntity saved = springDataRepo.save(entity);
@@ -64,8 +64,8 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
         springDataRepo.saveAll(salePointCostList.stream().map(sc->
                 new SalePointCostEntity(
                         sc.getId() != null ? sc.getId() : null,
-                        sc.getSalePointOrigin().id(),
-                        sc.getSalePointDestination().id(),
+                        sc.getSalePointOrigin().getId(),
+                        sc.getSalePointDestination().getId(),
                         sc.getCost()
                 )
         ).collect(Collectors.toList()));

@@ -25,11 +25,11 @@ public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
 
     @Override
     public SalePoint save(SalePoint salePoint) throws ConflictException {
-        Optional<SalePointEntity> existing = springDataSalePointRepository.findById(salePoint.id());
+        Optional<SalePointEntity> existing = springDataSalePointRepository.findById(salePoint.getId());
         if (existing.isPresent()) {
             throw new ConflictException(SALE_POINT_ALREADY_EXISTS);
         }
-        SalePointEntity entityNew = new SalePointEntity(salePoint.id(), salePoint.name());
+        SalePointEntity entityNew = new SalePointEntity(salePoint.getId(), salePoint.getName());
         SalePointEntity saveEntity = springDataSalePointRepository.save(entityNew);
         return new SalePoint(saveEntity.getId(), saveEntity.getName());
     }
@@ -37,17 +37,17 @@ public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
     @Override
     public void saveAll(List<SalePoint> salePoints) {
         springDataSalePointRepository.saveAll(salePoints.stream().map(z ->
-                new SalePointEntity(z.id(), z.name())
+                new SalePointEntity(z.getId(), z.getName())
         ).collect(Collectors.toList()));
     }
 
 
     @Override
     public SalePoint update(SalePoint salePoint) throws ResourceNotFoundException {
-        SalePointEntity entity = springDataSalePointRepository.findById(salePoint.id()).orElseThrow(() ->
+        SalePointEntity entity = springDataSalePointRepository.findById(salePoint.getId()).orElseThrow(() ->
                 new ResourceNotFoundException(SALE_POINT_NOT_FOUND));
         // Apply changes from domain object
-        entity.setName(salePoint.name());
+        entity.setName(salePoint.getName());
         SalePointEntity updatedEntity = springDataSalePointRepository.save(entity);
         return new SalePoint(updatedEntity.getId(), updatedEntity.getName());
     }
