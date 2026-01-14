@@ -59,6 +59,18 @@ public class JpaSalePointCostRepositoryAdapter implements SalePointCostRepositor
         springDataRepo.deleteById(id);
     }
 
+    @Override
+    public void saveAll(List<SalePointCost> salePointCostList) {
+        springDataRepo.saveAll(salePointCostList.stream().map(sc->
+                new SalePointCostEntity(
+                        sc.getId() != null ? sc.getId() : null,
+                        sc.getSalePointOrigin().id(),
+                        sc.getSalePointDestination().id(),
+                        sc.getCost()
+                )
+        ).collect(Collectors.toList()));
+    }
+
     private SalePointCost toDomain(SalePointCostEntity e) {
         SalePoint origin = e.getOriginId() != null ? new SalePoint(e.getOriginId(), null) : null;
         SalePoint destination = e.getDestinationId() != null ? new SalePoint(e.getDestinationId(), null) : null;

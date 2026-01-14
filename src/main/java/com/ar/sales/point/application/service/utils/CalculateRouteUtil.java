@@ -19,21 +19,21 @@ public class CalculateRouteUtil {
             List<Long> result = new ArrayList<>();
             return RouteCost.builder().path(result).cost(0).build();
         }
-        Map<SalePoint, Double> costs = new HashMap<>();
-        Map<SalePoint, SalePoint> predecesors = new HashMap<>();
-        PriorityQueue<SalePoint> queue = new PriorityQueue<>(Comparator.comparingDouble(costs::get));
+        Map<Long, Double> costs = new HashMap<>();
+        Map<Long, Long> predecesors = new HashMap<>();
+        PriorityQueue<Long> queue = new PriorityQueue<>(Comparator.comparingDouble(costs::get));
 
         stationList.forEach(station -> {
-            costs.put(station, Double.MAX_VALUE);
+            costs.put(station.id(), Double.MAX_VALUE);
         });
-        costs.put(origin, (double) 0);
+        costs.put(origin.id(), (double) 0);
 
-        queue.add(origin);
+        queue.add(origin.id());
 
         while (!queue.isEmpty()) {
-            SalePoint actual = queue.poll();
+            Long actual = queue.poll();
 
-            if (actual.equals(destiny)) {
+            if (actual.equals(destiny.id())) {
                 break;
             }
 
@@ -41,31 +41,31 @@ public class CalculateRouteUtil {
                 /**
                  * Examine origen and destination ways (bidirectional)
                  */
-                if (route.getSalePointOrigin().equals(actual) || route.getSalePointDestination().equals(actual)) {
-                    SalePoint neighbour = (route.getSalePointOrigin().equals(actual)) ? route.getSalePointDestination() : route.getSalePointOrigin();
+                if (route.getSalePointOrigin().id().equals(actual) || route.getSalePointDestination().id().equals(actual)) {
+                    SalePoint neighbour = (route.getSalePointOrigin().id().equals(actual)) ? route.getSalePointDestination() : route.getSalePointOrigin();
                     double newCost = costs.get(actual) + route.getCost();
 
-                    if (newCost < costs.get(neighbour)) {
-                        costs.put(neighbour, newCost);
-                        predecesors.put(neighbour, actual);
-                        queue.add(neighbour);
+                    if (newCost < costs.get(neighbour.id())) {
+                        costs.put(neighbour.id(), newCost);
+                        predecesors.put(neighbour.id(), actual);
+                        queue.add(neighbour.id());
                     }
                 }
             }
         }
 
         List<Long> path = new LinkedList<>();
-        SalePoint step = destiny;
+        Long step = destiny.id();
 
         if (predecesors.get(step) == null) {
             return null;
         }
 
         while (step != null) {
-            path.add(0, step.id());
+            path.add(0, step);
             step = predecesors.get(step);
         }
 
-        return RouteCost.builder().path(path).cost(costs.get(destiny)).build();
+        return RouteCost.builder().path(path).cost(costs.get(destiny.id())).build();
     }
 }

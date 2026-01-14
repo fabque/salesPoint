@@ -11,5 +11,6 @@ public interface SalePointCostRepositoryPort {
     SalePointCost findByOriginAndDestination(Long originId, Long destinationId);
     List<SalePointCost> findAll();
     void deleteById(Long id);
+    void saveAll(List<SalePointCost> salePointCostList);
 }
 

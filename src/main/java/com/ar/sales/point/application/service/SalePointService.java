@@ -32,6 +32,11 @@ public class SalePointService implements SalePointUseCase {
         }
     }
 
+    @Override
+    public void saveAllSalePoints(List<SalePoint> salePoints) {
+        salePointRepositoryPort.saveAll(salePoints);
+    }
+
     @CachePut(value = "salePoints", key = "#id")
     public SalePoint updateSalePoint(SalePoint salePoint) throws ResourceNotFoundException {
         try {
@@ -67,6 +72,5 @@ public class SalePointService implements SalePointUseCase {
         } catch (Exception e) {
             throw e;
         }
-
     }
 }

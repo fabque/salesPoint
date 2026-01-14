@@ -9,6 +9,7 @@ import java.util.List;
 public interface SalePointUseCase {
 
     SalePoint createSalePoint(SalePoint salePoint) throws ConflictException;
+    void saveAllSalePoints(List<SalePoint> salePoints);
     SalePoint updateSalePoint(SalePoint salePoint) throws ResourceNotFoundException;
     SalePoint getSalePointById(Long id) throws ResourceNotFoundException;
     List<SalePoint> getAllSalePoints();

@@ -15,4 +15,5 @@ public interface SalePointCostUseCase {
     List<SalePointCost> getAllSalePointCosts();
     void deleteSalePointCost(Long id) throws ResourceNotFoundException;
     RouteCost calculateRouteCost(Long originId, Long destinationId) throws ResourceNotFoundException;
+    void initCostDDBB();
 }

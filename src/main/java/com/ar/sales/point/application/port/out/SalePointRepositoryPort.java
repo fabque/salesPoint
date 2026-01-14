@@ -9,6 +9,7 @@ import java.util.List;
 public interface SalePointRepositoryPort {
 
     SalePoint save(SalePoint salePoint) throws ConflictException;
+    void saveAll(List<SalePoint> salePoints);
     SalePoint update(SalePoint salePoint) throws ResourceNotFoundException;
     SalePoint findById(Long id) throws ResourceNotFoundException;
     List<SalePoint> findAll();

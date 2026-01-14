@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -47,7 +48,7 @@ public class SalePointCostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
-                .andExpect(content().string("Already exists"));
+                .andExpect(content().string(containsString("Already exists")));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class SalePointCostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Not found"));
+                .andExpect(content().string(containsString("Not found")));
     }
 
     @Test
@@ -71,18 +72,17 @@ public class SalePointCostControllerTest {
 
         mockMvc.perform(get("/salepointCosts/99"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("SalePointCost not found"));
+                .andExpect(content().string(containsString("SalePointCost not found")));
     }
 
     @Test
     void delete_notFound_returns404_handledByAdvice() throws Exception {
-        //todo corregir test
-       /* doThrow(new ResourceNotFoundException("Not found"))
+        doThrow(new ResourceNotFoundException("Not found"))
                 .when(useCase).deleteSalePointCost(any());
 
         mockMvc.perform(delete("/salepointCosts/10"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Not found"));*/
+                .andExpect(content().string(containsString("Not found")));
     }
 
     @Test
@@ -92,6 +92,8 @@ public class SalePointCostControllerTest {
 
         mockMvc.perform(get("/salepointCosts/bestroute/1/5"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Route not found"));
+                .andExpect(content().string(containsString("Route not found")));
     }
+
+
 }

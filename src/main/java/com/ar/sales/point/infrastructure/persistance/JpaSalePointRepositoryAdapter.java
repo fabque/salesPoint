@@ -35,6 +35,14 @@ public class JpaSalePointRepositoryAdapter implements SalePointRepositoryPort {
     }
 
     @Override
+    public void saveAll(List<SalePoint> salePoints) {
+        springDataSalePointRepository.saveAll(salePoints.stream().map(z ->
+                new SalePointEntity(z.id(), z.name())
+        ).collect(Collectors.toList()));
+    }
+
+
+    @Override
     public SalePoint update(SalePoint salePoint) throws ResourceNotFoundException {
         SalePointEntity entity = springDataSalePointRepository.findById(salePoint.id()).orElseThrow(() ->
                 new ResourceNotFoundException(SALE_POINT_NOT_FOUND));
