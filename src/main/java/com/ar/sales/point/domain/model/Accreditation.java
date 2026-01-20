@@ -15,4 +15,11 @@ public class Accreditation {
     private String salePointName;
     private Double amount;
     private Date acreditationDate;
+
+    public Accreditation (SalePoint salePoint, Double amount, Date acreditationDate) {
+        this.salePoint = salePoint;
+        this.salePointName = salePoint.getName();
+        this.amount = amount;
+        this.acreditationDate = acreditationDate;
+    }
 }
