@@ -1,10 +1,10 @@
-package com.ar.sales.point.infrastructure.persistance;
+package com.ar.sales.point.infrastructure.persistence;
 
 import com.ar.sales.point.application.port.out.SalePointCostRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.domain.model.SalePointCost;
-import com.ar.sales.point.infrastructure.persistance.entities.SalePointCostEntity;
-import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointCostRepository;
+import com.ar.sales.point.infrastructure.persistence.h2.SalePointCostEntity;
+import com.ar.sales.point.infrastructure.persistence.h2.repositories.SpringDataSalePointCostRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

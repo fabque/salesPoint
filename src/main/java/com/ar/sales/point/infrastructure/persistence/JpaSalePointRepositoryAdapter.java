@@ -1,11 +1,11 @@
-package com.ar.sales.point.infrastructure.persistance;
+package com.ar.sales.point.infrastructure.persistence;
 
 import com.ar.sales.point.application.port.out.SalePointRepositoryPort;
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.infrastructure.exception.ConflictException;
 import com.ar.sales.point.infrastructure.exception.ResourceNotFoundException;
-import com.ar.sales.point.infrastructure.persistance.entities.SalePointEntity;
-import com.ar.sales.point.infrastructure.persistance.repositories.SpringDataSalePointRepository;
+import com.ar.sales.point.infrastructure.persistence.h2.SalePointEntity;
+import com.ar.sales.point.infrastructure.persistence.h2.repositories.SpringDataSalePointRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

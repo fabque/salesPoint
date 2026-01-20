@@ -1,4 +1,4 @@
-package com.ar.sales.point.infrastructure.persistance;
+package com.ar.sales.point.infrastructure.persistence;
 
 import com.ar.sales.point.domain.model.SalePoint;
 import com.ar.sales.point.domain.model.SalePointCost;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

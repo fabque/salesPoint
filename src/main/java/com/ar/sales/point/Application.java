@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.EnableCaching;
 public class Application {
 
 	public static void main(String[] args) {
+		// Force JVM timezone to UTC early to avoid passing unsupported timezone strings to Postgres
+		System.setProperty("user.timezone", "UTC");
 		SpringApplication.run(Application.class, args);
 	}
 

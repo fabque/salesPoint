@@ -1,6 +1,6 @@
-package com.ar.sales.point.infrastructure.persistance.repositories;
+package com.ar.sales.point.infrastructure.persistence.h2.repositories;
 
-import com.ar.sales.point.infrastructure.persistance.entities.SalePointCostEntity;
+import com.ar.sales.point.infrastructure.persistence.h2.SalePointCostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
