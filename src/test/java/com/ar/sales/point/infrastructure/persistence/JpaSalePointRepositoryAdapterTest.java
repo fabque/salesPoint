@@ -14,7 +14,7 @@ import java.util.List;
 @Import(JpaSalePointRepositoryAdapter.class)
 public class JpaSalePointRepositoryAdapterTest {
 
-   /* @Autowired
+    @Autowired
     private JpaSalePointRepositoryAdapter adapter;
 
     @Test
@@ -31,5 +31,14 @@ public class JpaSalePointRepositoryAdapterTest {
 
         List<SalePoint> all = adapter.findAll();
         assertFalse(all.isEmpty(), "findAll should return at least one element");
-    }*/
+
+        // update
+        SalePoint toUpdate = new SalePoint(saved.getId(), "H2 SP UPDATED");
+        SalePoint updated = assertDoesNotThrow(() -> adapter.update(toUpdate));
+        assertEquals("H2 SP UPDATED", updated.getName());
+
+        // delete
+        adapter.deleteById(saved.getId());
+        assertThrows(Exception.class, () -> adapter.findById(saved.getId()));
+    }
 }
