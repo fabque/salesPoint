@@ -9,4 +9,5 @@ public interface AccreditationUseCase {
     Accreditation createAccreditation(Accreditation accreditation) throws ResourceNotFoundException;
     List<Accreditation> getAllAccreditations();
     Accreditation getAccreditationById(Long id) throws ResourceNotFoundException;
+    List<Accreditation> getAccreditationsBySalePointId(Long salePointId);
 }

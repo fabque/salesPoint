@@ -44,12 +44,34 @@ public class AccreditationController {
         return ResponseEntity.status(201).body(new AccreditationResponse(accreditation.getId(), accreditation.getSalePoint().getId(), accreditation.getSalePoint().getName(), accreditation.getAmount(), accreditation.getAcreditationDate()));
     }
 
+    @Operation(summary = "Get a accreditation by id", description = "Returns accreditation by its id.")
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<?> getAccreditationById(@PathVariable("id") Long id) {
+        final Accreditation accreditation;
+        try {
+            accreditation = accreditationService.getAccreditationById(id);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(new AccreditationResponse(accreditation.getId(), accreditation.getSalePoint().getId(), accreditation.getSalePointName(), accreditation.getAmount(), accreditation.getAcreditationDate()));
+    }
+
     @Operation(summary = "List all accreditations", description = "Returns all accreditations.")
     @GetMapping(produces = "application/json")
-    public ResponseEntity<?> getAllSalePoints() {
+    public ResponseEntity<?> getAllAccreditations() {
         return ResponseEntity.status(HttpStatus.OK).body(accreditationService.getAllAccreditations().stream()
                 .map(sp -> new AccreditationResponse(sp.getId(), sp.getSalePoint().getId(), sp.getSalePointName(), sp.getAmount(), sp.getAcreditationDate()))
                 .collect(Collectors.toList()));
     }
+
+    @Operation(summary = "Get a accreditation by salepointId id", description = "Returns accreditation by its salepoint id.")
+    @GetMapping(value= "/", produces = "application/json")
+    public ResponseEntity<?> getAccreditationBySalepointId(@RequestParam("salepointId") Long salepointId) {
+        return ResponseEntity.status(HttpStatus.OK).body(accreditationService.getAccreditationsBySalePointId(salepointId).stream()
+                .map(sp -> new AccreditationResponse(sp.getId(), sp.getSalePoint().getId(), sp.getSalePointName(), sp.getAmount(), sp.getAcreditationDate()))
+                .collect(Collectors.toList()));
+    }
+
 
 }

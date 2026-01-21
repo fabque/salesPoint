@@ -38,4 +38,9 @@ public class AccreditationService implements AccreditationUseCase {
     public Accreditation getAccreditationById(Long id) throws ResourceNotFoundException {
         return accreditationRepositoryPort.findById(id);
     }
+
+    @Override
+    public List<Accreditation> getAccreditationsBySalePointId(Long salePointId) {
+        return accreditationRepositoryPort.findBySalePointId(salePointId);
+    }
 }

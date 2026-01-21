@@ -10,4 +10,5 @@ public interface AccreditationRepositoryPort {
     Accreditation save(Accreditation accreditation);
     Accreditation findById(Long id) throws ResourceNotFoundException;
     List<Accreditation> findAll();
+    List<Accreditation> findBySalePointId(Long salePointId);
 }

@@ -45,6 +45,11 @@ public class JpaAccreditationtRepositoryAdapter implements AccreditationReposito
         return springDataAccreditationRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Accreditation> findBySalePointId(Long salePointId) {
+        return springDataAccreditationRepository.findBySalePointId(salePointId).stream().map(this::toDomain).collect(Collectors.toList());
+    }
+
     public Accreditation toDomain(AccreditationEntity entity) {
         SalePoint salePoint = new SalePoint(entity.getSalePointId(), entity.getSalePointName());
         return new Accreditation(entity.getId(), salePoint, salePoint.getName(), entity.getAmount(), entity.getAcreditationDate());
